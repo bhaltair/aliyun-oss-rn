@@ -73,8 +73,9 @@ pod 'aliyun-oss-react-native', :path => '../node_modules/aliyun-oss-react-native
 - **非CocoaPods**
 
 1. 在XCode  Project navigator面板中, 右键单击工程Libraries文件 ➜ 选择`Add Files to <...>` 进入 `node_modules` ➜ `aliyun-oss-react-native` ➜ `ios` ➜ select `RNAliyunOSS.xcodeproj`
-2. 在XCode  Project navigator面板中, 添加`RNAliyunOSS.a` to `Build Phases -> Link Binary With Libraries`
+2. 在XCode  Project navigator面板中, 添加`libRNAliyunOSS.a` to `Build Phases -> Link Binary With Libraries`
 3. 在XCode  Project navigator面板中，右键单击[framework] ➜ Add Files to [your project's name]. 进入node_modules ➜ aliyun-oss-rn-sdk ➜ AliyunSDK. Add AliyunOSSiOS.framework
+4. 在XCode  Project navigator面板中，选择项目，在 `Build Settings` 中搜索 `Framework Search Paths`，双击右侧的列表，添加路径 `$(SRCROOT)/../node_modules/aliyun-oss-react-native/ios/AliyunSDK`
 
 #### Android
 1. `settings.gradle`
@@ -85,7 +86,7 @@ pod 'aliyun-oss-react-native', :path => '../node_modules/aliyun-oss-react-native
 2. `build.gradle`
     ```gradle
     dependencies {
-        compile project(':aliyun-oss-react-native')
+        implementation project(':aliyun-oss-react-native')
     }
     ```
 
@@ -144,16 +145,36 @@ AliyunOSS.initWithServerSTS("/***http://ip:端口/****/",endPoint, configuration
 *  step-5:
 
 ```javascript
-  <!-- 备注：目前接口仅暴漏filePath,上传路径为file:/// -->
+  // 监听上传事件和上传进度
+  const uploadProgress = p => console.log(p.currentSize / p.totalSize);
+  AliyunOSS.addEventListener('uploadProgress', uploadProgress);
+  // 备注：目前接口仅暴漏filePath,上传路径为file:///
   AliyunOSS.asyncUpload(bucketname, objectkey, filePath).then( (res) => {
-    <!-- log的查看可以通过React Native自带的调试工具也可通过XCode Log控制台进行查看 -->
+    // log的查看可以通过React Native自带的调试工具也可通过XCode Log控制台进行查看（这种说明是不是不好意思列出来打印内容？）
     console.log(res)
+    /*
+    // 你没看错，就是个字符串，我看到这么扯淡的返回数据就知道肯定是阿里官方的没错了！
+    res: - iOS
+    <OSSTask: 0x28005f000; completed = YES; cancelled = NO; faulted = NO; result = OSSResult<0x28006da80> : {httpResponseCode: 200, requestId: 5D68BA341FC81051D38D1EEA, httpResponseHeaderFields: {
+    Connection = "keep-alive";
+    "Content-Length" = 0;
+    "Content-MD5" = "hv5uuYgemLMbheutkysVbA==";
+    Date = "Fri, 30 Aug 2019 05:55:00 GMT";
+    Etag = "\"86FE6EB9881E98B31B85EBAD932B156C\"";
+    Server = AliyunOSS;
+    "x-oss-hash-crc64ecma" = 6682316439168427881;
+    "x-oss-request-id" = 5D68BA341FC81051D38D1EEA;
+    "x-oss-server-time" = 42;
+    }, local_crc64ecma: (null)}>
+    */
+    // 移除上传进度监听
+    AliyunOSS.removeEventListener('uploadProgress');
   }).catch((error)=>{
-    console.log(error)
+    console.log(error);
+    // 移除上传进度监听
+    AliyunOSS.removeEventListener('uploadProgress');
   })
-  <!-- 监听上传事件和上传进度-->
- const downloadProgress = p => console.log(p.currentSize / p.totalSize);
- AliyunOSS.addEventListener('uploadProgress', downloadProgress);
+ 
 ```
 
 ## 接口
