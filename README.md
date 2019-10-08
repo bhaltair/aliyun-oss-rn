@@ -1,8 +1,10 @@
 # Aliyun OSS SDK for React Native
 
-## [README of English](https://github.com/aliyun/aliyun-oss-react-native/blob/master/README.md)
+## [README of English](https://github.com/aliyun/aliyun-oss-react-native/blob/master/README-EN.md)
 
 ## 简介
+
+> 这是一个阿里云官方库 `aliyun-oss-react-native` 的问题修复版本，鉴于原仓库阿里云团队不再维护，此仓库以 `aliyun-oss-rn` 发布。用法与原仓库一致。
 
 本文档主要介绍OSS React Native SDK的安装和使用。本文档假设您已经开通了阿里云OSS 服务，并创建了Access Key ID 和Access Key Secret。文中的ID 指的是Access Key ID，KEY 指的是Access Key Secret。如果您还没有开通或者还不了解OSS，请登录[OSS产品主页](http://www.aliyun.com/product/oss)获取更多的帮助。
 
