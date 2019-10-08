@@ -85,7 +85,7 @@ public class AliyunUploadManager {
             cursor.moveToFirst();
             sourceFile = cursor.getString(column_index);
         } catch (Exception e) {
-            sourceFile = FileUtils.getFilePathFromURI(context.getCurrentActivity(), selectedVideoUri);
+            sourceFile = selectedVideoUri.getPath();
         } finally {
             if (cursor != null) {
                 cursor.close();
