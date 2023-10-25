@@ -112,6 +112,10 @@
         PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:nil].firstObject;
         [self convertToNSDataFromAsset:asset withHandler:callback];
         
+    } else if ([filepath hasPrefix:@"file://"]) {
+        NSError *error = nil;
+        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:filepath] options:NSDataReadingMappedIfSafe error:&error];
+        callback(fileData);
     } else {
         filepath = [filepath stringByReplacingOccurrencesOfString:@"file://" withString:@""];
         NSData *data = [NSData dataWithContentsOfFile:filepath];

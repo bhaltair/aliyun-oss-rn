@@ -1,6 +1,6 @@
 {
   "name": "aliyun-oss-rn",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "真正可用的阿里云 OSS 库，阿里官方的不靠谱的。",
   "main": "index.js",
   "scripts": {
